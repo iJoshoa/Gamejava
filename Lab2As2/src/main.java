@@ -15,7 +15,7 @@ class Framenaja extends JPanel implements ActionListener {
     boolean l2,e1;
 
     Framenaja() throws IOException {
-        this.image1 = ImageIO.read(new File("c:/Users/~iJoshoa~/Desktop/bg1.jpg"));
+        this.image1 = ImageIO.read(new File("D:/study/Gamejava/Lab2As2/bg1.jpg"));
 
         x = 350;
         y = 300;
