@@ -31,6 +31,7 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
     Boolean jumpl;
     Boolean jumpr;
     Boolean down;
+    Boolean downn;
     Boolean l;
     Boolean r;
     Boolean u;
@@ -67,6 +68,7 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
         jumpl = false;
         jumpr = false;
         down = false;
+        downn = false;
         l = false;
         u = false;
         setFocusable(true);
@@ -80,7 +82,7 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
         g.drawImage(this.image1, bgx1, bgy, null);
         g.drawImage(this.image1, bgx2, bgy, null);
 
-        g.drawImage(this.image2, bgx3 - way, bgy + 330, 150, 150, null);
+        g.drawImage(this.image2, bgx3 - way, bgy + 380, 100, 100, null);
 
         if (hu == 1) {
 
@@ -113,20 +115,32 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
         if (down == true) {
 
         } else {
+
             if (key == KeyEvent.VK_LEFT) {
                 l = true;
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
                 clip.start();
                 hu = 1;
                 walk++;
-                bgx1 += sp;
-                way -= sp;
-                bgx2 += sp;
-                if (bgx1 >= 1600) {
-                    bgx1 = -1600;
-                }
-                if (bgx2 >= 1600) {
-                    bgx2 = -1600;
+
+                if (way + x + 80 == 960) {
+                    System.out.println(way + x + 80);
+
+                    clip2.start();
+                } else {
+                    down=true;
+                    System.out.println(way + x + 80);
+                    clip2.setMicrosecondPosition(0);
+                    clip2.stop();
+                    way -= sp;
+                    bgx1 += sp;
+                    bgx2 += sp;
+                    if (bgx1 >= 1600) {
+                        bgx1 = -1600;
+                    }
+                    if (bgx2 >= 1600) {
+                        bgx2 = -1600;
+                    }
                 }
             }
             if (key == KeyEvent.VK_RIGHT) {
@@ -136,12 +150,15 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
                 hu = 2;
                 walk++;
 
-                if (way + x + 80 >= bgx3) {
+                if (way + x + 80 == 800) {
 
                     clip2.start();
                 } else {
+                    down=true;
+                    System.out.println(way + x + 80);
                     clip2.setMicrosecondPosition(0);
                     clip2.stop();
+                    
                     way += sp;
                     bgx1 -= sp;
                     bgx2 -= sp;
@@ -189,25 +206,24 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
         if (hu == 2 && u == true) {
             jumpr = true;
         }
-        if(hu==1 && u==true){
+        if (hu == 1 && u == true) {
             jumpl = true;
         }
-        
+
         if (jumpr == true) {
-            System.out.println(way + x + 80);
+            //System.out.println(way + x + 80);
             if (up <= 150) {
                 jumpr = false;
-                u=false;
-                down = true;
-            } 
-            if(way + x + 80 >= bgx3){
-                 jumpr = false;
-                u=false;
+                u = false;
                 down = true;
             }
-            else {
+            if (way + x + 80 >= bgx3 && bgy >= 300) {
+                jumpr = false;
+                u = false;
+                down = true;
+            } else {
                 up -= 5;
-                
+
                 bgx1 -= 5;
                 bgx2 -= 5;
                 way += 5;
@@ -216,7 +232,7 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
         if (jumpl == true) {
             if (up <= 150) {
                 jumpl = false;
-                u=false;
+                u = false;
                 down = true;
             } else {
                 up -= 5;
@@ -226,14 +242,27 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
                 way -= 5;
             }
         }
+       
         if (down == true) {
             if (up >= 300) {
+
                 down = false;
                 l = false;
                 r = false;
-                
+
             } else {
-                up += 5;
+                if (up == 220 && (way + x + 80 >= 800&&way + x + 80 <= 960)) {
+                    down = false;
+                    l = false;
+                    r = false;
+                } else if (way + x + 80 == 800||way + x + 80 == 960) {
+                    up += 5;
+                    System.out.println("ooooo");
+                } else {
+                    System.out.println("down " + up);
+                    up += 5;
+                }
+
             }
         }
     }
