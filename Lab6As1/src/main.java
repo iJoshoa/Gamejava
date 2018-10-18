@@ -39,24 +39,24 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
     String po;
 
     panelAnimation() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-        sound = new URL("file:///D:/study/Gamejava/Lab4As1/stepstone.wav");
-        sound2 = new URL("file:///D:/study/Gamejava/Lab4As1/movement.wav");
+        sound = new URL("file:///C:/Users/GELAB/Desktop/Lab6As1/stepstone.wav");
+        sound2 = new URL("file:///C:/Users/GELAB/Desktop/Lab6As1/movement.wav");
         clip = AudioSystem.getClip();
         audioinput = AudioSystem.getAudioInputStream(sound);
         clip2 = AudioSystem.getClip();
         audioinput2 = AudioSystem.getAudioInputStream(sound2);
         clip.open(audioinput);
         clip2.open(audioinput2);
-        this.image1 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/bg1.jpg"));
-        this.image2 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/box.png"));
-        this.l1 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/l1.png"));
-        this.l2 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/l2.png"));
-        this.l3 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/l3.png"));
-        this.r1 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/r1.png"));
-        this.r2 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/r2.png"));
-        this.r3 = ImageIO.read(new File("D:/study/Gamejava/Lab6As1/r3.png"));
+        this.image1 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\bg1.jpg"));
+        this.image2 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\box.png"));
+        this.l1 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\l1.png"));
+        this.l2 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\l2.png"));
+        this.l3 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\l3.png"));
+        this.r1 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\r1.png"));
+        this.r2 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\r2.png"));
+        this.r3 = ImageIO.read(new File("C:\\Users\\GELAB\\Desktop\\Lab6As1\\r3.png"));
         for (int i = 0; i < 10; i++) {
-            num[i] = "D:/study/Gamejava/Lab6As1/" + i + ".png";
+            num[i] = "C:\\Users\\GELAB\\Desktop\\Lab6As1\\" + i + ".png";
             this.n[i] = ImageIO.read(new File(num[i]));
         }
 
@@ -87,12 +87,13 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
     public void paint(Graphics g) {
         super.paint(g);
         po = String.valueOf(point);
-        System.out.println("dox " + rdom + " way " + way + " bgx1 " + bgx1 + " up " + up + " jump " + jump + " jumpl " + jumpl + " jumpr " + jumpr + " down " + down + " point " + point+ " bgy "+bgy);
+        System.out.println("dox " + rdom + " way " + way + " bgx1 " + bgx1 + " up " + up + " jump " + jump + " jumpl " + jumpl + " jumpr " + jumpr + " down " + down + " point " + point + " bgy " + bgy);
+
         g.drawImage(this.image1, bgx1, bgy, null);
         g.drawImage(this.image1, bgx2, bgy, null);
-        g.drawImage(this.image1, bgx1+3200, bgy, null);
-        g.drawImage(this.image1, bgx1+4800, bgy, null);
-        g.drawImage(this.image1, bgx1+6400, bgy, null);
+        g.drawImage(this.image1, bgx1 + 3200, bgy, null);
+        g.drawImage(this.image1, bgx1 + 4800, bgy, null);
+        g.drawImage(this.image1, bgx1 + 6400, bgy, null);
 
         if (point <= 9) {
             g.drawImage(this.n[point], 700, 30, 25, 50, null);
@@ -126,7 +127,7 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
             g.drawImage(this.n[sum3], 700 - 30, 30, 25, 50, null);
             g.drawImage(this.n[sum2], 700 - 60, 30, 25, 50, null);
             g.drawImage(this.n[sum1], 700 - 90, 30, 25, 50, null);
-            
+
         }
         g.drawImage(this.image2, rdom, bgy + 380, 100, 100, null);
         if (hu == 1) {
@@ -166,23 +167,29 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
                 hu = 1;
                 jumpl = true;
                 jumpr = false;
-                
+
                 if (way <= 0) {
                     jumpl = false;
                 } else if (way <= 360) {
                     x -= speed;
                     way -= speed;
 
+                } else if (way <= box + 75) {
+                    
                 } else {
                     if (bgx1 == 0) {
 
                     } else {
                         bgx1 += speed;
                         bgx2 += speed;
-                        rdom +=speed;
+                        rdom += speed;
                     }
                     way -= speed;
                 }
+                if (way <= box - 75) {
+                    down = true;
+                }
+
             }
             if (key == KeyEvent.VK_RIGHT) {
                 hu = 2;
@@ -191,16 +198,31 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
                 if (way <= 360) {
                     x += speed;
                     way += speed;
-                } 
-                else if(x>=rdom-75){
-                    
+                } else {
+                    if (way >= box - 75 && up <= 250) {
+                        bgx1 -= speed;
+                        bgx2 -= speed;
+                        way += speed;
+                        rdom -= speed;
+                    } else if (way >= box - 75) {
+
+                    } else {
+                        bgx1 -= speed;
+                        bgx2 -= speed;
+                        way += speed;
+                        rdom -= speed;
+                    }
                 }
-                else {
+                if (up <= 250 && way >= box + 100) {
+                    down = true;
+                }
+                if (up == 320 && way >= box + 100) {
                     bgx1 -= speed;
                     bgx2 -= speed;
                     way += speed;
-                    rdom -=speed;
+                    rdom -= speed;
                 }
+
             }
         }
     }
@@ -229,6 +251,9 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
                 jump = true;
                 walk = 0;
             }
+            if (up <= 250) {
+                jump = false;
+            }
 
         }
 
@@ -239,21 +264,19 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
         if (jump == true) {
             if (jumpr == true) {
                 up -= speed;
-                
+
                 point++;
                 if (way <= 350) {
                     x += speed;
                     way += speed;
-                } 
-                else if(x>=rdom-75){
+                } else if (way >= box - 80 && bgy >= 300) {
                     down = true;
                     jump = false;
-                    
-                }
-                else {
+
+                } else {
                     bgx1 -= speed;
                     bgx2 -= speed;
-                    rdom -=speed;
+                    rdom -= speed;
                     way += speed;
                 }
                 if (up < 180) {
@@ -272,6 +295,7 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
                 if (way <= 350) {
                     x -= speed;
                 } else {
+                    rdom += speed;
                     bgx1 += speed;
                     bgx2 += speed;
                 }
@@ -285,16 +309,20 @@ class panelAnimation extends JPanel implements KeyListener, ActionListener {
 
         }
         if (down == true) {
-            up += speed;
+
             jump = false;
             if (up >= 320) {
                 down = false;
+            } else {
+                up += speed;
             }
-            if (up ==220 && way >=rdom ){
+            if (up == 220 && way >= rdom + 75) {
                 down = false;
+                up += speed;
+            } else {
+
             }
-     
-            
+
         }
     }
 }
